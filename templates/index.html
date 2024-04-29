@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container">
+
+<div class="row">
+  <div class="col-sm-8">
+     <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+
+        {% for banner in banners %}
+          <li data-target="#myCarousel" data-slide-to="{{ loop.forcounter1 }}"></li>
+          {% endfor %}
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img src="https://imgd.aeplcdn.com/1056x594/n/cw/ec/103183/raider-125-right-front-three-quarter-5.png?isig=0&q=80&wm=3" alt="Image">
+          <div class="carousel-caption">
+            <h3>Sell $</h3>
+            <p>Money Money.</p>
+          </div>
+        </div>
+
+          {% for banner in banners %}
+
+            <div class="item">
+              <img src="{{ banner.banner_image.url }}" alt="Image">
+            </div>
+          {% endfor%}
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+  </div>
+  <div class="col-sm-4">
+      {% for category in categories %}
+        <div class="well">
+          <a href="{% url 'category_based_bike' category.id %} ">{{ category.name }}</a>
+        </div>
+      {% endfor %}
+  </div>
+</div>
+<hr>
+</div>
+
+
+
+
+{% if bike_buy_and_sell %}
+
+    <div class="container-fluid">
+        <div class="navbar-search smallsearch col-sm-7 col-xs-11">
+              <form  action="/search" method="get">
+                <div class="row">
+                    <input class="form-control col-xl-11" type="search" placeholder="Search for names and more" name="query" id="query">
+<br>
+                     <button type="submit" class="btn btn-primary">Search</button>
+
+                </div>
+              </form>
+            </div>
+
+        <br>
+        <br>
+
+        <div class="row" style="margin-top: 6%">
+            <div class="col-sm-8 blog-main">
+                <div class="blog-post">
+                    <div class="row">
+                        <h1>Popular Motor Cycles</h1>
+                        {% for b in bike_buy_and_sell %}
+                            <div class="col-md-4">
+                                <div class="thumbnail">
+                                     <a href="{% url 'product_detail' b.pk %}">
+                                         {% if b.get_first_image %}
+                                            <img class="project__thumbnail" src="{{b.get_first_image.image.url}}" alt="project thumbnail" style="height: 150px" />
+                                         {% else %}
+                                         <img class="project__thumbnail" style="height: 150px"
+                                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png" alt="project thumbnail" />
+                                         {% endif %}
+                                        </a>
+
+                                        <div class="caption">
+                                            <h3 class="text-center">
+                                                <a href="{% url 'product_detail' b.pk %}">{{ b.name }}</a>
+                                            </h3>
+                                            <p class="text-center">{{ b.category }}</p>
+                                        </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                 </div><!-- /.blog-post -->
+                </div><!-- /.blog-main -->
+
+            </div><!-- /.row -->
+    </div>
+    <!-- /.container -->
+
+{% else %}
+<h3 style="text-align:center; color:#3E454C;">No Search Found</h3>
+{% endif %}
+
+{% endblock %}

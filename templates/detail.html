@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+            <div class="col-sm-8 blog-main">
+                <div class="blog-post">
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="item">
+                                    {% if product.get_first_image %}
+                                           {% for image in product.images.all %}
+                                            <img src="{{ image.image.url }}" style="height: 170px; width: auto" />
+                                           {% endfor %}
+                                    {% else %}
+                                         <img class="project__thumbnail"
+                                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png" alt="project thumbnail" />
+                                    {% endif %}
+
+                                 </div>
+                                <div class="col-md-6" style="padding-left: 20px">
+                                    <h3>{{ product.name }}</h3>
+                                    <h6>{{ product.category.name }}</h6>
+                                    <p>{{ product.description|safe|linebreaksbr }}</p>
+
+                                    <form action="{% url 'cart_add' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ cart_product_form }}
+                                        <input type="submit" value="add to cart" class="btn btn-primary">
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

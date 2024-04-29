@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Category</th>
+          <th scope="col">Status</th>
+        </tr>
+    </thead>
+          <tbody>
+           {% for b in bike_buy_and_sell %}
+                <tr>
+                  <th scope="row">{{ b.id }}</th>
+                  <th scope="row">{{ b.name }}</th>
+                  <td>{{ b.price }}</td>
+                  <td>{{ b.category }}</td>
+                  <td>{{ b.status }}</td>
+                </tr>
+           {% endfor %}
+          </tbody>
+</table>
+
+{% endblock %}
